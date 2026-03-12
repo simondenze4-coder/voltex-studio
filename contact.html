@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Voltex Studio · Contact & Project Inquiry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shell" id="top">
+      <a href="#main" class="visually-hidden">Skip to main content</a>
+
+      <header class="site-header">
+        <div class="page-width nav-inner">
+          <a href="index.html#top" class="brand">
+            <div class="brand-mark"></div>
+            <div class="brand-text">
+              <div class="brand-name">Voltex Studio</div>
+              <div class="brand-tagline">Industry interior design</div>
+            </div>
+          </a>
+          <nav class="nav-links">
+            <a href="cases.html" class="nav-link">Cases</a>
+            <a href="studio.html" class="nav-link">About us</a>
+            <a href="contact.html" class="nav-link nav-link--active">Contact</a>
+          </nav>
+          <div class="nav-right">
+            <button type="button" class="cta" id="calculateBtn">Calculate project</button>
+          </div>
+        </div>
+      </header>
+
+      <main id="main">
+        <section class="section" id="contact" data-contact-target>
+          <div class="page-width">
+            <header class="section-header reveal delay-1">
+              <p class="section-kicker">Contact</p>
+              <h1 class="section-title">Start your project</h1>
+              <p class="section-lead">
+                Share a few details about your space and expectations. We will respond with an initial
+                outline, estimated fees, and next steps.
+              </p>
+            </header>
+
+            <div class="contact-layout reveal delay-2">
+              <form class="contact-panel" id="contactForm" autocomplete="on" novalidate>
+                <h2>Project inquiry</h2>
+                <p>
+                  Please provide as much information as you comfortably can. You can also email us directly
+                  at <strong>hello@voltex-studio.com</strong>.
+                </p>
+
+                <div class="contact-inline">
+                  <div class="contact-field">
+                    <label for="name" class="contact-label">Name*</label>
+                    <input id="name" name="name" class="contact-input" type="text" autocomplete="name" />
+                  </div>
+                  <div class="contact-field">
+                    <label for="email" class="contact-label">Email*</label>
+                    <input id="email" name="email" class="contact-input" type="email" autocomplete="email" />
+                  </div>
+                </div>
+
+                <div class="contact-inline">
+                  <div class="contact-field">
+                    <label for="project-type" class="contact-label">Project type*</label>
+                    <select id="project-type" name="project-type" class="contact-select">
+                      <option value="">Select</option>
+                      <option value="residential">Residential</option>
+                      <option value="hospitality">Hospitality</option>
+                      <option value="workspace">Workspace</option>
+                      <option value="other">Other / mixed</option>
+                    </select>
+                  </div>
+                  <div class="contact-field">
+                    <label for="budget" class="contact-label">Approximate budget*</label>
+                    <select id="budget" name="budget" class="contact-select">
+                      <option value="">Select</option>
+                      <option value="80-150k">€80K – €150K</option>
+                      <option value="150-300k">€150K – €300K</option>
+                      <option value="300-500k">€300K – €500K</option>
+                      <option value="500k-plus">€500K +</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="contact-field">
+                  <label for="location" class="contact-label">Location</label>
+                  <input id="location" name="location" class="contact-input" type="text" />
+                  <p class="contact-helper">City and country are enough at this stage.</p>
+                </div>
+
+                <div class="contact-field">
+                  <label for="message" class="contact-label">Project notes</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    class="contact-textarea"
+                    placeholder="Tell us about the space, timelines, and what atmosphere you would like to achieve."
+                  ></textarea>
+                </div>
+
+                <button type="submit" class="cta">Send inquiry</button>
+                <div class="contact-status" id="contactStatus" aria-live="polite"></div>
+              </form>
+
+              <div class="contact-meta">
+                <p>
+                  <strong>Direct contact</strong><br />
+                  Email: <a href="mailto:hello@voltex-studio.com">hello@voltex-studio.com</a><br />
+                  Phone: <a href="tel:+48571451691">+48 571 451 691</a>
+                </p>
+                <p>
+                  <strong>Typical timelines</strong><br />
+                  Concept and planning: 4–8 weeks depending on scope.<br />
+                  Realisation and on‑site direction: aligned with construction schedule.
+                </p>
+                <p>
+                  <strong>Working together</strong><br />
+                  We start every collaboration with a short online meeting to understand your expectations
+                  and confirm whether we are the right practice for your project.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="footer">
+          <div class="page-width footer-inner">
+            <span>© <span id="year"></span> Voltex Studio. All rights reserved.</span>
+            <span>Studio email: hello@voltex-studio.com · Phone: +48 571 451 691</span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
+
