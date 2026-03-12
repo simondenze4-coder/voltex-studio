@@ -70,6 +70,8 @@ button {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  max-width: 560px;
+  margin-inline: auto;
 }
 
 .page-width {
@@ -746,6 +748,10 @@ button {
 }
 
 @media (min-width: 780px) {
+  .shell {
+    max-width: none;
+  }
+
   .nav-inner {
     position: relative;
   }
