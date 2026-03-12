@@ -87,6 +87,8 @@ button {
   z-index: 30;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  padding-top: max(env(safe-area-inset-top, 0px), 0.75rem);
+  padding-bottom: 0.4rem;
 }
 
 .nav-inner {
@@ -275,6 +277,12 @@ button {
     box-shadow var(--transition-fast);
 }
 
+@media (max-width: 779px) {
+  .nav-right .cta {
+    display: none;
+  }
+}
+
 .cta:hover {
   background: #f5f3ef;
   color: #101010;
@@ -293,6 +301,14 @@ button {
   grid-template-columns: minmax(0, 1fr);
   align-items: stretch;
   row-gap: 1.8rem;
+}
+
+.hero-image-wrap {
+  order: 2;
+}
+
+.hero-panel {
+  order: 1;
 }
 
 .hero-image-wrap {
@@ -748,6 +764,10 @@ button {
 }
 
 @media (min-width: 780px) {
+  .nav-right {
+    gap: 1.2rem;
+  }
+
   .shell {
     max-width: none;
   }
@@ -777,6 +797,14 @@ button {
   .hero-layout {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr);
     min-height: 70vh;
+  }
+
+  .hero-image-wrap {
+    order: 1;
+  }
+
+  .hero-panel {
+    order: 2;
   }
 
   .hero-image-wrap {
