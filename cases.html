@@ -19,12 +19,21 @@
               <div class="brand-tagline">Industry interior design</div>
             </div>
           </a>
-          <nav class="nav-links">
+          <nav class="nav-links" aria-label="Main navigation">
             <a href="cases.html" class="nav-link nav-link--active">Cases</a>
             <a href="studio.html" class="nav-link">About us</a>
             <a href="contact.html" class="nav-link">Contact</a>
           </nav>
           <div class="nav-right">
+            <button
+              type="button"
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+            >
+              <span class="nav-toggle-bar"></span>
+            </button>
             <button type="button" class="cta" id="calculateBtn">Calculate project</button>
           </div>
         </div>
@@ -42,63 +51,7 @@
               </p>
             </header>
 
-            <div class="cases-grid reveal delay-2">
-              <article class="case-card">
-                <div class="case-label">Residential · Warsaw</div>
-                <h2 class="case-title">Riverlight Loft Residence</h2>
-                <p class="case-meta">
-                  Double‑height loft reimagined with layered lighting, bespoke steel and oak staircase,
-                  and soft textiles that quiet the industrial shell.
-                </p>
-                <div class="pill-row">
-                  <span class="pill">Full-scope design</span>
-                  <span class="pill">Art direction</span>
-                  <span class="pill">Custom furniture</span>
-                </div>
-              </article>
-
-              <article class="case-card">
-                <div class="case-label">Hospitality · Berlin</div>
-                <h2 class="case-title">Courtyard Micro Hotel</h2>
-                <p class="case-meta">
-                  18-key boutique hotel organised around an inner courtyard, with quiet rooms, atmospheric
-                  lobby bar, and a restrained, tactile material palette.
-                </p>
-                <div class="pill-row">
-                  <span class="pill">Concept to handover</span>
-                  <span class="pill">Lighting strategy</span>
-                  <span class="pill">FF&amp;E</span>
-                </div>
-              </article>
-
-              <article class="case-card">
-                <div class="case-label">Workspace · Copenhagen</div>
-                <h2 class="case-title">Nordic Studio Office</h2>
-                <p class="case-meta">
-                  Boutique office for a creative agency: shared table islands, acoustic zoning, and soft
-                  industrial lines that feel more home than office.
-                </p>
-                <div class="pill-row">
-                  <span class="pill">Workspace strategy</span>
-                  <span class="pill">Bespoke joinery</span>
-                  <span class="pill">Styling</span>
-                </div>
-              </article>
-
-              <article class="case-card">
-                <div class="case-label">Residential · Paris</div>
-                <h2 class="case-title">Haussmannian Quiet Apartment</h2>
-                <p class="case-meta">
-                  Historic shell softened with tonal neutrals, minimal interventions, and carefully framed
-                  lighting that respects the architecture.
-                </p>
-                <div class="pill-row">
-                  <span class="pill">Renovation</span>
-                  <span class="pill">Heritage</span>
-                  <span class="pill">On‑site art direction</span>
-                </div>
-              </article>
-            </div>
+            <div class="cases-grid reveal delay-2" data-cases-list></div>
           </div>
         </section>
 

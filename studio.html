@@ -19,12 +19,21 @@
               <div class="brand-tagline">Industry interior design</div>
             </div>
           </a>
-          <nav class="nav-links">
+          <nav class="nav-links" aria-label="Main navigation">
             <a href="cases.html" class="nav-link">Cases</a>
             <a href="studio.html" class="nav-link nav-link--active">About us</a>
             <a href="contact.html" class="nav-link">Contact</a>
           </nav>
           <div class="nav-right">
+            <button
+              type="button"
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+            >
+              <span class="nav-toggle-bar"></span>
+            </button>
             <button type="button" class="cta" id="calculateBtn">Calculate project</button>
           </div>
         </div>

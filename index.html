@@ -19,12 +19,21 @@
               <div class="brand-tagline">Industry interior design</div>
             </div>
           </a>
-          <nav class="nav-links">
+          <nav class="nav-links" aria-label="Main navigation">
             <a href="cases.html" class="nav-link">Cases</a>
             <a href="studio.html" class="nav-link">About us</a>
             <a href="contact.html" class="nav-link">Contact</a>
           </nav>
           <div class="nav-right">
+            <button
+              type="button"
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation"
+              aria-expanded="false"
+            >
+              <span class="nav-toggle-bar"></span>
+            </button>
             <button type="button" class="cta" id="calculateBtn">Calculate project</button>
           </div>
         </div>
@@ -95,23 +104,7 @@
         </section>
 
         <section class="stats-strip">
-          <div class="page-width stats-grid reveal delay-3">
-            <div>
-              <div class="stat-label">Experience</div>
-              <div class="stat-value">22 years</div>
-              <div>We create a rare atmosphere for a measured life — from villas to compact city apartments.</div>
-            </div>
-            <div>
-              <div class="stat-label">Completed objects</div>
-              <div class="stat-value">560+ projects</div>
-              <div>Truly special objects with powerful energy, tactile materials, and exquisite interiors.</div>
-            </div>
-            <div>
-              <div class="stat-label">Recognition</div>
-              <div class="stat-value">Houzz 2024</div>
-              <div>Best Customer Experience for high‑end residential design in Europe.</div>
-            </div>
-          </div>
+          <div class="page-width stats-grid reveal delay-3" data-stats-grid></div>
         </section>
 
         <section class="footer">
