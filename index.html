@@ -2,124 +2,393 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Voltex Studio · Premium Interior Design</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="shell" id="top">
-      <a href="#main" class="visually-hidden">Skip to main content</a>
+    <title>Feane Fast Food · Cinematic Burgers, Pizza & Chicken</title>
 
-      <header class="site-header">
-        <div class="page-width nav-inner">
-          <a href="index.html#top" class="brand">
-            <div class="brand-mark"></div>
-            <div class="brand-text">
-              <div class="brand-name">Voltex Studio</div>
-              <div class="brand-tagline">Industry interior design</div>
-            </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="fastfood.css" />
+  </head>
+
+  <body>
+    <div id="app">
+      <a href="#home" class="skip-link">Skip to content</a>
+
+      <header class="ff-header" data-ff-header>
+        <div class="ff-container ff-nav">
+          <a class="ff-brand" href="#home" aria-label="Feane Fast Food Home">
+            <span class="ff-brand-logo" aria-hidden="true">🍔</span>
+            <span class="ff-brand-text">
+              <span class="ff-brand-script">Feane</span>
+              <span class="ff-brand-sub">Fast Food Restaurant</span>
+            </span>
           </a>
-          <nav class="nav-links" aria-label="Main navigation">
-            <a href="cases.html" class="nav-link">Cases</a>
-            <a href="studio.html" class="nav-link">About us</a>
-            <a href="contact.html" class="nav-link">Contact</a>
+
+          <nav class="ff-navlinks" aria-label="Primary navigation" data-ff-navlinks>
+            <a class="ff-navlink" href="#home" data-route-link>Home</a>
+            <a class="ff-navlink" href="#menu" data-route-link>Menu</a>
+            <a class="ff-navlink" href="#about" data-route-link>About</a>
+            <a class="ff-navlink" href="#book" data-route-link>Book</a>
           </nav>
-          <div class="nav-right">
-            <button
-              type="button"
-              class="nav-toggle"
-              id="navToggle"
-              aria-label="Toggle navigation"
-              aria-expanded="false"
-            >
-              <span class="nav-toggle-bar"></span>
+
+          <div class="ff-navright">
+            <button class="ff-iconbtn" type="button" id="cartOpenBtn" aria-label="Open cart">
+              <span aria-hidden="true">🛒</span>
+              <span class="ff-cart-badge" id="cartCountBadge" aria-live="polite">0</span>
             </button>
-            <button type="button" class="cta">Calculate project</button>
+            <button class="ff-hamburger" type="button" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+              <span class="ff-hamburger-bar"></span>
+            </button>
           </div>
         </div>
       </header>
 
-      <main id="main">
-        <section class="hero-shell">
-          <div class="page-width hero-layout">
-            <figure class="hero-image-wrap reveal delay-1" id="heroMedia">
-              <img
-                src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80"
-                alt="Double-height luxury living room with soft seating and tall windows"
-                class="hero-image"
-                id="heroImage"
-              />
-            </figure>
+      <div class="ff-hero-fade" aria-hidden="true"></div>
 
-            <div class="hero-panel">
-              <div class="hero-glow"></div>
-              <div class="hero-panel-inner reveal delay-2">
-                <p class="hero-kicker">For homes, villas & refined workspaces</p>
-                <h1 class="hero-title">Interiors that feel like an exhale</h1>
-                <p class="hero-sub">
-                  Voltex Studio helps you create a home that is calm, welcoming, and quietly luxurious —
-                  a space where every day feels lighter, guests feel instantly at ease, and you are proud
-                  to invite people in.
+      <main id="main" class="ff-main">
+        <!-- HOME -->
+        <section class="ff-route" data-route="home" id="home" aria-label="Home">
+          <div class="ff-hero">
+            <div class="ff-hero-grid ff-container">
+              <div class="ff-hero-copy reveal">
+                <p class="ff-kicker">Black & Gold. Pure comfort food.</p>
+                <h1 class="ff-hero-title">Fast Food, Elevated.</h1>
+                <p class="ff-hero-lead">
+                  Burgers, pizza, crispy chicken and loaded fries — made fresh, served fast, and built for late-night cravings.
                 </p>
-                <button type="button" class="cta" id="calculateBtn">
-                  Plan my project
-                </button>
-                <div class="hero-line"></div>
 
-                <div class="hero-metadata">
-                  <div>
-                    <span class="stat-label">For you</span>
-                    <span class="stat-value">Less stress</span>
-                    <span>Clear decisions, guided by us, so you avoid costly mistakes and endless revisions.</span>
-                  </div>
-                  <div>
-                    <span class="stat-label">Everyday life</span>
-                    <span class="stat-value">Calm & comfort</span>
-                    <span>Spaces planned for how you actually live — from storage to lighting and acoustics.</span>
-                  </div>
-                  <div>
-                    <span class="stat-label">Long term</span>
-                    <span class="stat-value">Considered value</span>
-                    <span>Measured, timeless interiors that age well and support your property value.</span>
-                  </div>
+                <div class="ff-hero-ctas">
+                  <a class="ff-btn ff-btn-gold" href="#menu" data-ff-primary-cta>Order Now</a>
+                  <a class="ff-btn ff-btn-ghost" href="#book">Book a Table</a>
                 </div>
 
-                <div class="hero-lower">
-                  <p class="hero-note">
-                    You share how you live and what you want to feel every day; we translate that into
-                    a clear concept, handle the visual and technical decisions, and stay with you through
-                    realisation so the end result matches the vision.
-                  </p>
+                <div class="ff-why-grid">
+                  <article class="ff-why-card reveal delay-1">
+                    <span class="ff-why-ico" aria-hidden="true">🥬</span>
+                    <h3>Fresh Ingredients</h3>
+                    <p>Quality produce and bold house sauces.</p>
+                  </article>
+                  <article class="ff-why-card reveal delay-2">
+                    <span class="ff-why-ico" aria-hidden="true">⚡</span>
+                    <h3>Fast Delivery</h3>
+                    <p>From grill to your door in minutes.</p>
+                  </article>
+                  <article class="ff-why-card reveal delay-3">
+                    <span class="ff-why-ico" aria-hidden="true">🌿</span>
+                    <h3>Healthy Choices</h3>
+                    <p>Balanced options without killing flavor.</p>
+                  </article>
+                </div>
+              </div>
 
-                  <div class="hero-lockup">
-                    <div class="hero-lockup-card">
-                      <div class="hero-lockup-main">Industry design</div>
-                      <div class="hero-lockup-badge">
-                        <span class="hero-lockup-dot"></span>
-                        <span>Selected by Design Award 2024</span>
-                      </div>
-                    </div>
-                  </div>
+              <div class="ff-hero-media reveal" data-ff-hero-media>
+                <div class="ff-hero-media-frame">
+                  <div class="ff-hero-overlay" aria-hidden="true"></div>
+                  <img id="heroImage" class="ff-hero-image" alt="Featured food" />
+                </div>
+
+                <div class="ff-hero-dots" role="tablist" aria-label="Hero slideshow">
+                  <button class="ff-dot is-active" type="button" data-hero-dot="0" aria-label="Slide 1" aria-selected="true"></button>
+                  <button class="ff-dot" type="button" data-hero-dot="1" aria-label="Slide 2" aria-selected="false"></button>
+                  <button class="ff-dot" type="button" data-hero-dot="2" aria-label="Slide 3" aria-selected="false"></button>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="ff-section ff-container">
+            <header class="ff-section-head reveal">
+              <p class="ff-kicker">Featured Meals</p>
+              <h2 class="ff-section-title">Tonight’s favorites</h2>
+            </header>
+
+            <div class="ff-grid ff-featured" id="featuredGrid"></div>
+          </div>
+
+          <div class="ff-section ff-container">
+            <header class="ff-section-head reveal">
+              <p class="ff-kicker">Loved by locals</p>
+              <h2 class="ff-section-title">Customer Stories</h2>
+            </header>
+
+            <div class="ff-testimonials reveal" id="testimonialsCarousel" aria-label="Testimonials">
+              <div class="ff-testimonial-card" id="testimonialCard"></div>
+              <div class="ff-carousel-dots" id="testimonialDots" role="tablist" aria-label="Testimonial pagination"></div>
+            </div>
+          </div>
+
+          <footer class="ff-footer">
+            <div class="ff-container ff-footer-inner">
+              <span>© <span id="ffYear"></span> Feane Fast Food. All rights reserved.</span>
+              <span>Open daily · Pickup & delivery</span>
+            </div>
+          </footer>
         </section>
 
-        <section class="stats-strip">
-          <div class="page-width stats-grid reveal delay-3" data-stats-grid></div>
+        <!-- MENU -->
+        <section class="ff-route ff-route--hidden" data-route="menu" id="menu" aria-label="Menu">
+          <div class="ff-page-hero">
+            <div class="ff-container ff-page-hero-inner">
+              <div class="reveal">
+                <p class="ff-kicker">Menu</p>
+                <h2 class="ff-page-title">Pick your craving</h2>
+                <p class="ff-page-sub">Filter by category, search instantly, and add to cart.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ff-section ff-container">
+            <div class="ff-menu-controls reveal" id="menuControls">
+              <div class="ff-tabs" role="tablist" aria-label="Menu categories" id="categoryTabs">
+                <button class="ff-tab is-active" type="button" data-category="Burgers" role="tab" aria-selected="true">Burgers</button>
+                <button class="ff-tab" type="button" data-category="Chicken" role="tab" aria-selected="false">Chicken</button>
+                <button class="ff-tab" type="button" data-category="Sides" role="tab" aria-selected="false">Sides</button>
+                <button class="ff-tab" type="button" data-category="Drinks" role="tab" aria-selected="false">Drinks</button>
+                <button class="ff-tab" type="button" data-category="Combos" role="tab" aria-selected="false">Combos</button>
+              </div>
+
+              <div class="ff-menu-search">
+                <label class="ff-sr-only" for="menuSearch">Search menu</label>
+                <input id="menuSearch" class="ff-search" type="search" placeholder="Search burgers, pizza, chicken..." />
+                <button type="button" class="ff-search-clear" id="searchClearBtn" aria-label="Clear search" title="Clear">✕</button>
+              </div>
+            </div>
+
+            <div class="ff-menu-grid-wrap">
+              <div class="ff-grid ff-menu-grid reveal" id="menuGrid" aria-live="polite"></div>
+            </div>
+          </div>
         </section>
 
-        <section class="footer">
-          <div class="page-width footer-inner">
-            <span>© <span id="year"></span> Voltex Studio. All rights reserved.</span>
-            <span>Studio email: hello@voltex-studio.com · Phone: +48 571 451 691</span>
+        <!-- ABOUT -->
+        <section class="ff-route ff-route--hidden" data-route="about" id="about" aria-label="About">
+          <div class="ff-page-hero ff-page-hero--about">
+            <div class="ff-container ff-page-hero-inner">
+              <div class="reveal">
+                <p class="ff-kicker">About</p>
+                <h2 class="ff-page-title">The Feane kitchen story</h2>
+                <p class="ff-page-sub">Cinematic flavors. Fast execution. Thoughtful options.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ff-section ff-container">
+            <div class="ff-about-grid">
+              <div class="ff-about-main reveal">
+                <h3 class="ff-about-title">Crafted for flavor and speed</h3>
+                <p class="ff-paragraph">
+                  Feane was built for nights when you want something bold but still feel good about it.
+                  We grill to order, top with house-made sauces, and keep portions balanced with nutrition in mind.
+                </p>
+                <p class="ff-paragraph">
+                  Our menu is designed like a soundtrack: burgers for the lead, pizza for the chorus, chicken for the punch,
+                  and fries because no story is complete without crunch.
+                </p>
+
+                <div class="ff-values">
+                  <article class="ff-value reveal delay-1">
+                    <span class="ff-value-ico" aria-hidden="true">🏆</span>
+                    <h4>Quality first</h4>
+                    <p>Better ingredients, better taste.</p>
+                  </article>
+                  <article class="ff-value reveal delay-2">
+                    <span class="ff-value-ico" aria-hidden="true">🥗</span>
+                    <h4>Fresh & balanced</h4>
+                    <p>Feel-good choices with every order.</p>
+                  </article>
+                  <article class="ff-value reveal delay-3">
+                    <span class="ff-value-ico" aria-hidden="true">📚</span>
+                    <h4>Nutrition education</h4>
+                    <p>Know what you're eating—without boring menus.</p>
+                  </article>
+                </div>
+              </div>
+
+              <aside class="ff-about-aside reveal">
+                <div class="ff-team-spotlight">
+                  <h3 class="ff-about-title" style="margin-top:0;">Chef Spotlight</h3>
+                  <div class="ff-team-grid">
+                    <article class="ff-team-card">
+                      <img
+                        class="ff-team-image"
+                        src="https://source.unsplash.com/600x600/?chef,grill"
+                        alt="Chef working on the grill"
+                      />
+                      <div class="ff-team-body">
+                        <strong>Chef Marco</strong>
+                        <span class="ff-muted">House sauce specialist</span>
+                      </div>
+                    </article>
+                    <article class="ff-team-card">
+                      <img
+                        class="ff-team-image"
+                        src="https://source.unsplash.com/600x600/?pizza,chef"
+                        alt="Chef preparing pizza dough"
+                      />
+                      <div class="ff-team-body">
+                        <strong>Chef Lina</strong>
+                        <span class="ff-muted">Stone-baked pizza lead</span>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+
+                <div class="ff-stats" aria-label="Restaurant stats">
+                  <div class="ff-stat">
+                    <div class="ff-stat-value" data-count="500">0</div>
+                    <div class="ff-stat-label">500+ Menu Items</div>
+                  </div>
+                  <div class="ff-stat">
+                    <div class="ff-stat-value" data-count="10000">0</div>
+                    <div class="ff-stat-label">10K+ Happy Customers</div>
+                  </div>
+                  <div class="ff-stat">
+                    <div class="ff-stat-value" data-count="18">0</div>
+                    <div class="ff-stat-label">Minutes Average Pickup</div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <!-- BOOK -->
+        <section class="ff-route ff-route--hidden" data-route="book" id="book" aria-label="Book a table">
+          <div class="ff-page-hero ff-page-hero--book">
+            <div class="ff-container ff-page-hero-inner">
+              <div class="reveal">
+                <p class="ff-kicker">Book a Table</p>
+                <h2 class="ff-page-title">Reserve your time</h2>
+                <p class="ff-page-sub">Pick a date and choose from available time slots.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ff-section ff-container">
+            <div class="ff-book-grid">
+              <form class="ff-form reveal" id="reservationForm" autocomplete="on" novalidate>
+                <h3 class="ff-form-title">Reservation</h3>
+
+                <div class="ff-form-row">
+                  <label class="ff-label" for="resName">Name</label>
+                  <input id="resName" class="ff-input" name="name" type="text" placeholder="Your name" required />
+                </div>
+
+                <div class="ff-form-row">
+                  <label class="ff-label" for="resDate">Date</label>
+                  <input id="resDate" class="ff-input" name="date" type="date" required />
+                </div>
+
+                <div class="ff-form-row">
+                  <label class="ff-label">Time</label>
+                  <div class="ff-slot-picker" id="timeSlotPicker" aria-label="Pick a time slot"></div>
+                  <input type="hidden" id="resTime" name="time" />
+                  <p class="ff-helper" id="slotHelp">Select a slot to continue.</p>
+                </div>
+
+                <div class="ff-form-row">
+                  <label class="ff-label" for="resParty">Party size</label>
+                  <select id="resParty" class="ff-input" name="party" required>
+                    <option value="2">2 guests</option>
+                    <option value="3">3 guests</option>
+                    <option value="4">4 guests</option>
+                    <option value="5">5 guests</option>
+                    <option value="6">6 guests</option>
+                    <option value="7">7 guests</option>
+                    <option value="8">8 guests</option>
+                  </select>
+                </div>
+
+                <div class="ff-form-row">
+                  <label class="ff-label" for="resReq">Special requests</label>
+                  <textarea id="resReq" class="ff-textarea" name="requests" placeholder="Allergies, seating, celebrations..."></textarea>
+                </div>
+
+                <button class="ff-btn ff-btn-gold ff-btn-wide" type="submit">Confirm Reservation</button>
+
+                <div class="ff-confirm" id="reservationConfirm" aria-live="polite" role="status" hidden>
+                  <span class="ff-confirm-ico" aria-hidden="true">✅</span>
+                  <span class="ff-confirm-text">Reservation confirmed. See you soon!</span>
+                </div>
+              </form>
+
+              <aside class="ff-book-aside reveal">
+                <h3 class="ff-about-title" style="margin-top:0;">What to expect</h3>
+                <p class="ff-paragraph">
+                  We’ll have your table ready on arrival. Want something specific? Add it to your requests — our team reads everything.
+                </p>
+                <div class="ff-book-highlights">
+                  <div class="ff-chip">Pickup + Delivery available</div>
+                  <div class="ff-chip">Walk-ins welcome</div>
+                  <div class="ff-chip">Vegetarian options</div>
+                </div>
+
+                <div class="ff-book-bg" aria-hidden="true"></div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <!-- ORDER -->
+        <section class="ff-route ff-route--hidden" data-route="order" id="order" aria-label="Your order">
+          <div class="ff-page-hero ff-page-hero--order">
+            <div class="ff-container ff-page-hero-inner">
+              <div class="reveal">
+                <p class="ff-kicker">Cart / Order</p>
+                <h2 class="ff-page-title">Review your cart</h2>
+                <p class="ff-page-sub">Adjust quantities and checkout (mock).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="ff-section ff-container">
+            <div class="ff-order-grid">
+              <div class="ff-panel reveal">
+                <h3 class="ff-panel-title">Items</h3>
+                <div id="orderItems"></div>
+              </div>
+              <div class="ff-panel reveal">
+                <h3 class="ff-panel-title">Summary</h3>
+                <div class="ff-summary" id="orderSummary"></div>
+                <button class="ff-btn ff-btn-gold ff-btn-wide" type="button" id="checkoutBtn">Checkout</button>
+                <p class="ff-helper">No payment backend needed — this is a UI mock.</p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
+
+      <!-- CART DRAWER -->
+      <div class="ff-drawer-overlay" id="cartOverlay" hidden></div>
+      <aside class="ff-drawer" id="cartDrawer" aria-label="Cart drawer" aria-hidden="true">
+        <div class="ff-drawer-head">
+          <div>
+            <div class="ff-drawer-title">Your Cart</div>
+            <div class="ff-muted" id="drawerItemCount">0 items</div>
+          </div>
+          <button class="ff-iconbtn ff-iconbtn--close" type="button" id="cartCloseBtn" aria-label="Close cart">✕</button>
+        </div>
+
+        <div class="ff-drawer-body" id="cartDrawerBody"></div>
+
+        <div class="ff-drawer-foot">
+          <div class="ff-drawer-total">
+            <span class="ff-muted">Subtotal</span>
+            <strong id="cartSubtotal">$0.00</strong>
+          </div>
+          <button class="ff-btn ff-btn-gold ff-btn-wide" type="button" id="checkoutDrawerBtn">Checkout</button>
+          <button class="ff-btn ff-btn-ghost ff-btn-wide" type="button" id="goOrderBtn">Go to Order Page</button>
+        </div>
+      </aside>
+
+      <div class="ff-toast" id="ffToast" role="status" aria-live="polite" hidden></div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="fastfood.js"></script>
   </body>
 </html>
 
