@@ -1499,3 +1499,8 @@ textarea {
   border: 0;
 }
 
+.ff-img--loading {
+  filter: blur(10px);
+  transform: scale(1.03);
+}
+

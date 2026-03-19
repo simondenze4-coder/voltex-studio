@@ -296,6 +296,18 @@
 
   const currency = new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" });
 
+  // Pixabay requires an API key for search. If you leave this blank, the site will
+  // gracefully fall back to Unsplash so the UI keeps working.
+  // Put your key here (e.g. from https://pixabay.com/api/docs/ ).
+  const PIXABAY_API_KEY = "";
+
+  const PIXABAY_API_URL = "https://pixabay.com/api/";
+  const PLACEHOLDER_IMG =
+    "data:image/svg+xml;utf8," +
+    encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient></defs><rect width="800" height="520" fill="url(#g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#bdb6a7" font-family="Poppins,Arial" font-size="18">Loading food image...</text></svg>`
+    );
+
   function unsplashUrl(keyword, w = 800, h = 600) {
     const q = String(keyword)
       .trim()
@@ -306,6 +318,36 @@
 
   function formatPrice(value) {
     return currency.format(Number(value));
+  }
+
+  const imageUrlCache = new Map(); // key: `${keyword}|${w}x${h}`
+
+  async function pixabayUrlForKeyword(keyword, w, h) {
+    const k = `${keyword}|${w}x${h}`;
+    if (imageUrlCache.has(k)) return imageUrlCache.get(k);
+
+    const res = await fetch(
+      `${PIXABAY_API_URL}?key=${encodeURIComponent(PIXABAY_API_KEY)}&q=${encodeURIComponent(
+        keyword
+      )}&image_type=photo&safesearch=true&per_page=3&orientation=horizontal`
+    );
+    if (!res.ok) throw new Error(`Pixabay request failed (${res.status})`);
+    const data = await res.json();
+    const hit = data?.hits?.[0];
+    const url = hit?.largeImageURL || hit?.webformatURL;
+    if (!url) throw new Error("No Pixabay image found");
+    imageUrlCache.set(k, url);
+    return url;
+  }
+
+  async function imageUrlForKeyword(keyword, w, h) {
+    if (!PIXABAY_API_KEY) return unsplashUrl(keyword, w, h);
+    try {
+      return await pixabayUrlForKeyword(keyword, w, h);
+    } catch {
+      // Keep things working even if Pixabay rate-limits or has no results.
+      return unsplashUrl(keyword, w, h);
+    }
   }
 
   function readCart() {
@@ -498,12 +540,21 @@
   const heroMediaEl = document.querySelector("[data-ff-hero-media]");
   const heroDots = Array.from(document.querySelectorAll("[data-hero-dot]"));
   let heroIndex = 0;
+  let heroSlideReqId = 0;
 
-  function setHeroSlide(index) {
+  async function setHeroSlide(index) {
     heroIndex = Math.max(0, Math.min(index, HERO_SLIDES.length - 1));
     const slide = HERO_SLIDES[heroIndex];
-    if (heroImageEl && slide) {
-      heroImageEl.src = unsplashUrl(slide.keyword, 1200, 800);
+    if (!heroImageEl || !slide) return;
+
+    const reqId = ++heroSlideReqId;
+    heroImageEl.src = PLACEHOLDER_IMG;
+    try {
+      const url = await imageUrlForKeyword(slide.keyword, 1200, 800);
+      if (reqId !== heroSlideReqId) return; // stale request
+      heroImageEl.src = url;
+    } catch {
+      // If something goes wrong, keep a placeholder.
     }
 
     heroDots.forEach((dot) => {
@@ -629,7 +680,6 @@
   function buildMealCard(item, { showAddToCart = true } = {}) {
     const health = item.healthSnapshot;
     const healthId = `health-${item.id}`;
-    const img = unsplashUrl(item.keyword, 800, 520);
     const price = formatPrice(item.price);
 
     const nutrientLis = Array.isArray(health.nutrients)
@@ -653,7 +703,15 @@
           >
             🌿
           </button>
-          <img src="${img}" alt="${escapeHtml(item.name)}" loading="lazy" />
+          <img
+            class="ff-meal-img ff-img--loading"
+            src="${PLACEHOLDER_IMG}"
+            data-ff-img-keyword="${escapeHtml(item.keyword)}"
+            data-ff-img-w="800"
+            data-ff-img-h="520"
+            alt="${escapeHtml(item.name)}"
+            loading="lazy"
+          />
         </div>
 
         <div class="ff-meal-body">
@@ -696,6 +754,31 @@
     `;
   }
 
+  async function hydrateImages(root = document) {
+    const imgs = Array.from(root.querySelectorAll("img[data-ff-img-keyword]"));
+    if (!imgs.length) return;
+
+    const jobs = imgs.map(async (imgEl) => {
+      if (imgEl.dataset.ffImgLoaded === "1") return;
+      imgEl.dataset.ffImgLoaded = "1";
+
+      const keyword = imgEl.getAttribute("data-ff-img-keyword") || "";
+      const w = Number(imgEl.getAttribute("data-ff-img-w") || "800");
+      const h = Number(imgEl.getAttribute("data-ff-img-h") || "520");
+
+      try {
+        const url = await imageUrlForKeyword(keyword, w, h);
+        imgEl.src = url;
+      } catch {
+        // Fallback handled by imageUrlForKeyword (or placeholder remains).
+      } finally {
+        imgEl.classList.remove("ff-img--loading");
+      }
+    });
+
+    await Promise.allSettled(jobs);
+  }
+
   function renderFeatured() {
     if (!featuredGridEl) return;
     const featuredIds = ["classic-beef-burger", "cheesy-pepperoni-pizza-combo", "loaded-fries", "charcoal-wings"];
@@ -703,6 +786,7 @@
     featuredGridEl.innerHTML = items.map((item) => buildMealCard(item)).join("");
     triggerRevealIn(featuredGridEl);
     observeReveal();
+    hydrateImages(featuredGridEl);
   }
 
   function filteredMenuItems() {
@@ -732,6 +816,7 @@
       }, 320);
       triggerRevealIn(menuGridEl);
       observeReveal();
+      hydrateImages(menuGridEl);
     });
   }
 
@@ -861,12 +946,19 @@
       .map(([id, qty]) => {
         const item = MENU_ITEMS.find((m) => m.id === id);
         if (!item) return "";
-        const thumb = unsplashUrl(item.keyword, 240, 180);
         const count = Number(qty) || 0;
         return `
           <div class="ff-cart-row">
             <div class="ff-cart-thumb">
-              <img src="${thumb}" alt="${escapeHtml(item.name)} thumbnail" loading="lazy" />
+              <img
+                class="ff-meal-img ff-img--loading"
+                src="${PLACEHOLDER_IMG}"
+                data-ff-img-keyword="${escapeHtml(item.keyword)}"
+                data-ff-img-w="240"
+                data-ff-img-h="180"
+                alt="${escapeHtml(item.name)} thumbnail"
+                loading="lazy"
+              />
             </div>
             <div class="ff-cart-info">
               <div class="ff-cart-name">${escapeHtml(item.name)}</div>
@@ -884,6 +976,8 @@
         `;
       })
       .join("");
+
+    hydrateImages(cartDrawerBodyEl);
   }
 
   // Cart control delegation
@@ -940,7 +1034,16 @@
         return `
           <div style="display:grid;grid-template-columns:64px 1fr;gap:0.85rem;padding:0.9rem 0;border-bottom:1px solid rgba(255,255,255,0.06);">
             <div style="width:64px;height:64px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);">
-              <img src="${unsplashUrl(item.keyword, 240, 180)}" alt="${escapeHtml(item.name)}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" />
+              <img
+                class="ff-meal-img ff-img--loading"
+                src="${PLACEHOLDER_IMG}"
+                data-ff-img-keyword="${escapeHtml(item.keyword)}"
+                data-ff-img-w="240"
+                data-ff-img-h="180"
+                alt="${escapeHtml(item.name)}"
+                style="width:100%;height:100%;object-fit:cover;"
+                loading="lazy"
+              />
             </div>
             <div>
               <div style="font-weight:600;">${escapeHtml(item.name)}</div>
@@ -959,6 +1062,7 @@
       })
       .join("");
 
+    hydrateImages(orderItemsEl);
     const subtotal = cartSubtotal();
     orderSummaryEl.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;">
