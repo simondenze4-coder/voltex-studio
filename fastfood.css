@@ -1191,6 +1191,10 @@ textarea {
   animation: ffConfirmIn 520ms ease-out both;
 }
 
+.ff-confirm[hidden] {
+  display: none !important;
+}
+
 @keyframes ffConfirmIn {
   from {
     opacity: 0;
