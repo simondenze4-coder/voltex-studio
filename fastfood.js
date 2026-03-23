@@ -268,9 +268,9 @@
   ];
 
   const HERO_SLIDES = [
-    { keyword: "gourmet burger" },
-    { keyword: "pepperoni pizza" },
-    { keyword: "crispy fried chicken" }
+    { keyword: "gourmet burger", localImage: "assets/featured-food.png" },
+    { keyword: "pepperoni pizza", localImage: "assets/featured-food-2.png" },
+    { keyword: "crispy fried chicken", localImage: "assets/featured-food-3.png" }
   ];
 
   const TESTIMONIALS = [
@@ -315,6 +315,12 @@
   // - keyword "gourmet burger" -> `assets/gourmet-burger.jpg` (or .png/.webp)
   const LOCAL_ASSET_DIR = "assets/";
   const LOCAL_IMAGE_EXTS = ["jpg", "jpeg", "png", "webp"];
+  const LOCAL_IMAGE_BY_ITEM_ID = {
+    "classic-beef-burger": "assets/classic-beef-burger.png",
+    "charcoal-wings": "assets/charcoal-wings-10pc.png",
+    "loaded-fries": "assets/loaded-fries-cheese-bacon.png",
+    "cheesy-pepperoni-pizza-combo": "assets/cheesy-pepperoni-pizza-combo.png"
+  };
 
   function keywordToSlug(keyword) {
     return String(keyword)
@@ -366,6 +372,12 @@
     }
 
     return false;
+  }
+
+  function itemIdForKeyword(keyword) {
+    const normalized = String(keyword).trim().toLowerCase();
+    const item = MENU_ITEMS.find((m) => String(m.keyword).trim().toLowerCase() === normalized);
+    return item?.id || "";
   }
 
   function unsplashUrl(keyword, w = 800, h = 600) {
@@ -616,7 +628,13 @@
       // Ignore; we'll still try local candidates.
     }
 
-    const candidateUrls = localImageUrlsForKeyword(slide.keyword);
+    const slideItemId = itemIdForKeyword(slide.keyword);
+    const candidateUrls = [];
+    if (slide.localImage) candidateUrls.push(slide.localImage);
+    if (slideItemId && LOCAL_IMAGE_BY_ITEM_ID[slideItemId]) {
+      candidateUrls.push(LOCAL_IMAGE_BY_ITEM_ID[slideItemId]);
+    }
+    candidateUrls.push(...localImageUrlsForKeyword(slide.keyword));
     if (remoteFallback) candidateUrls.push(remoteFallback);
 
     await loadImageWithCandidates(heroImageEl, candidateUrls, {
@@ -835,7 +853,12 @@
       const h = Number(imgEl.getAttribute("data-ff-img-h") || "520");
 
       try {
-        const localCandidates = localImageUrlsForKeyword(keyword);
+        const mappedItemId = itemIdForKeyword(keyword);
+        const localCandidates = [];
+        if (mappedItemId && LOCAL_IMAGE_BY_ITEM_ID[mappedItemId]) {
+          localCandidates.push(LOCAL_IMAGE_BY_ITEM_ID[mappedItemId]);
+        }
+        localCandidates.push(...localImageUrlsForKeyword(keyword));
         let remoteFallback = null;
         try {
           remoteFallback = await imageUrlForKeyword(keyword, w, h);

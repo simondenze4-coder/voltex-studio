@@ -342,14 +342,14 @@ textarea {
   background:
     radial-gradient(700px circle at 10% 20%, rgba(255, 193, 7, 0.2), transparent 52%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.15)),
-    url("https://source.unsplash.com/1600x900/?restaurant,kitchen,dark") center/cover no-repeat;
+    url("assets/background-picture.png") center/cover no-repeat;
 }
 
 .ff-page-hero--book {
   background:
     radial-gradient(700px circle at 15% 20%, rgba(255, 193, 7, 0.22), transparent 58%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.15)),
-    url("https://source.unsplash.com/1600x900/?dining,night,restaurant") center/cover no-repeat;
+    url("assets/background-picture.png") center/cover no-repeat;
 }
 
 .ff-page-hero--order {
