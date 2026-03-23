@@ -308,6 +308,66 @@
       `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient></defs><rect width="800" height="520" fill="url(#g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#bdb6a7" font-family="Poppins,Arial" font-size="18">Loading food image...</text></svg>`
     );
 
+  // Local image support: if you place your photos in `assets/` and name them
+  // using the same labels as our menu keywords, we will load them first.
+  //
+  // Example naming:
+  // - keyword "gourmet burger" -> `assets/gourmet-burger.jpg` (or .png/.webp)
+  const LOCAL_ASSET_DIR = "assets/";
+  const LOCAL_IMAGE_EXTS = ["jpg", "jpeg", "png", "webp"];
+
+  function keywordToSlug(keyword) {
+    return String(keyword)
+      .trim()
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+  }
+
+  function localImageBasesForKeyword(keyword) {
+    const raw = String(keyword).trim().toLowerCase();
+    const slug = keywordToSlug(raw);
+    const underscore = raw.replace(/\s+/g, "_").replace(/[^a-z0-9_]+/g, "");
+    const noPunct = raw.replace(/[^a-z0-9]+/g, "");
+
+    const bases = [slug, underscore, noPunct, raw.replace(/\s+/g, "-")];
+    return Array.from(new Set(bases.map((b) => b.trim()).filter(Boolean)));
+  }
+
+  function localImageUrlsForKeyword(keyword) {
+    const bases = localImageBasesForKeyword(keyword);
+    const urls = [];
+    for (const base of bases) {
+      for (const ext of LOCAL_IMAGE_EXTS) {
+        urls.push(`${LOCAL_ASSET_DIR}${encodeURIComponent(base)}.${ext}`);
+      }
+    }
+    return urls;
+  }
+
+  async function loadImageWithCandidates(imgEl, urls, { isStale } = {}) {
+    if (!Array.isArray(urls) || !urls.length) return false;
+
+    for (const url of urls) {
+      if (typeof isStale === "function" && isStale()) return false;
+
+      const ok = await new Promise((resolve) => {
+        const tmp = new Image();
+        tmp.onload = () => resolve(true);
+        tmp.onerror = () => resolve(false);
+        tmp.src = url;
+      });
+
+      if (!ok) continue;
+      if (typeof isStale === "function" && isStale()) return false;
+      imgEl.src = url;
+      return true;
+    }
+
+    return false;
+  }
+
   function unsplashUrl(keyword, w = 800, h = 600) {
     const q = String(keyword)
       .trim()
@@ -549,13 +609,21 @@
 
     const reqId = ++heroSlideReqId;
     heroImageEl.src = PLACEHOLDER_IMG;
+    let remoteFallback = null;
     try {
-      const url = await imageUrlForKeyword(slide.keyword, 1200, 800);
-      if (reqId !== heroSlideReqId) return; // stale request
-      heroImageEl.src = url;
+      remoteFallback = await imageUrlForKeyword(slide.keyword, 1200, 800);
     } catch {
-      // If something goes wrong, keep a placeholder.
+      // Ignore; we'll still try local candidates.
     }
+
+    const candidateUrls = localImageUrlsForKeyword(slide.keyword);
+    if (remoteFallback) candidateUrls.push(remoteFallback);
+
+    await loadImageWithCandidates(heroImageEl, candidateUrls, {
+      isStale: () => reqId !== heroSlideReqId
+    });
+
+    if (reqId !== heroSlideReqId) return; // stale request
 
     heroDots.forEach((dot) => {
       const dotIdx = Number(dot.getAttribute("data-hero-dot"));
@@ -767,10 +835,21 @@
       const h = Number(imgEl.getAttribute("data-ff-img-h") || "520");
 
       try {
-        const url = await imageUrlForKeyword(keyword, w, h);
-        imgEl.src = url;
+        const localCandidates = localImageUrlsForKeyword(keyword);
+        let remoteFallback = null;
+        try {
+          remoteFallback = await imageUrlForKeyword(keyword, w, h);
+        } catch {
+          // Ignore; local images (or placeholder) will still be used.
+        }
+
+        const candidateUrls = remoteFallback
+          ? [...localCandidates, remoteFallback]
+          : localCandidates;
+
+        await loadImageWithCandidates(imgEl, candidateUrls);
       } catch {
-        // Fallback handled by imageUrlForKeyword (or placeholder remains).
+        // Keep placeholder on unexpected errors.
       } finally {
         imgEl.classList.remove("ff-img--loading");
       }
